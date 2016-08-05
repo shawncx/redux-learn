@@ -11,17 +11,19 @@ class NaviDrawer extends React.Component {
   
   static propTypes = {
     openDrawer: PropTypes.bool.isRequired,
+    changeDrawerRequest: PropTypes.func.isRequired,
     naviItem: PropTypes.array.isRequired,
     onSelectItem: PropTypes.func.isRequired
   }
 
   render() {
-    const {openDrawer, naviItem, onSelectItem} = this.props;
+    const {openDrawer, naviItem, onSelectItem, changeDrawerRequest} = this.props;
 
     return (
       <div>
         <Drawer docked={false}
-                open={openDrawer}>
+                open={openDrawer}
+                onRequestChange={changeDrawerRequest}>
           
         </Drawer>
       </div>

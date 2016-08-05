@@ -34,19 +34,27 @@ class CoreLayout extends React.Component {
   constructor(props) {
     super(props);
     this.openNaviDrawer = this.openNaviDrawer.bind(this);
+    this.changeNaviDrawerRequest = this.changeNaviDrawerRequest.bind(this);
     this.state = {
       openNaviDrawer: false
     };
   }
   
   openNaviDrawer() {
-    
     this.setState(
       Object.assign({}, 
         this.state,
-        {openNaviDrawer: !this.state.openNaviDrawer})
+        {openNaviDrawer: true})
     );
   }
+
+  changeNaviDrawerRequest = (open) => {
+    this.setState(
+      Object.assign({},
+        this.state,
+        {openNaviDrawer: open})
+    );
+  };
 
   pageNavi(event, value) {
     // this.context.router.push(value);
@@ -62,7 +70,8 @@ class CoreLayout extends React.Component {
         <NaviDrawer
           openDrawer={this.state.openNaviDrawer}
           naviItem={createNaviItems}
-          onSelectItem={this.pageNavi}/>
+          onSelectItem={this.pageNavi}
+          changeDrawerRequest={this.changeNaviDrawerRequest}/>
         <div className={classes.mainContainer}>
           {children}
         </div>
