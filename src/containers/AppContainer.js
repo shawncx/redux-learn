@@ -16,13 +16,13 @@ class AppContainer extends Component {
     injectTapEventPlugin();
     return (
 
-      <MuiThemeProvider>
+
         <Provider store={store}>
           <div style={{ height: '100%' }}>
             <Router history={history} children={routes}/>
           </div>
         </Provider>
-      </MuiThemeProvider>
+
     )
   }
 }

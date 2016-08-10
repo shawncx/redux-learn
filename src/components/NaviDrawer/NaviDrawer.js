@@ -3,30 +3,52 @@
  */
 import React, {PropTypes} from 'react';
 import Drawer from 'material-ui/Drawer';
-import {List, ListItem, MakeSelectable} from 'material-ui/List';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
+import Header from '../Header';
+import outerStyle from './NaviDrawer.scss';
 
-const SelectableList = MakeSelectable(List);
+const innerStyle = {
+  menuItem: {
+    // color: '#2fba20',
+    // backgroundColor: 'red'
+  }
+};
 
 class NaviDrawer extends React.Component {
-  
+
   static propTypes = {
+    title: PropTypes.string.isRequired,
     openDrawer: PropTypes.bool.isRequired,
     changeDrawerRequest: PropTypes.func.isRequired,
     naviItem: PropTypes.array.isRequired,
     onSelectItem: PropTypes.func.isRequired
   }
 
-  render() {
-    const {openDrawer, naviItem, onSelectItem, changeDrawerRequest} = this.props;
+  static contextTypes = {
+    muiTheme: PropTypes.object.isRequired,
+  };
 
+  render() {
+    const {title, openDrawer, naviItem, onSelectItem, changeDrawerRequest} = this.props;
     return (
-      <div>
-        <Drawer docked={false}
-                open={openDrawer}
-                onRequestChange={changeDrawerRequest}>
-          
-        </Drawer>
-      </div>
+      <Drawer
+        docked={false}
+        open={openDrawer}
+        onRequestChange={changeDrawerRequest}>
+        <Header
+          title={title}
+          showMenuButton={false} />
+        <Menu >
+          {naviItem.map(item =>
+            <MenuItem 
+              innerDivStyle={innerStyle.menuItem} 
+              key={item.text} 
+              primaryText={item.text} 
+              value={item.value}/>
+          )}
+        </Menu>
+      </Drawer>
     )
   }
 }

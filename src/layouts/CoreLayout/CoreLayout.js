@@ -1,8 +1,12 @@
 import React, {PropTypes} from 'react';
 import Header from '../../components/Header';
-import classes from './CoreLayout.scss';
-import '../../styles/core.scss';
 import NaviDrawer from '../../components/NaviDrawer';
+import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+import '../../styles/core.scss';
+import classes from './CoreLayout.scss';
+
 
 const createNaviItems = [
   {
@@ -26,11 +30,11 @@ class CoreLayout extends React.Component {
   static contextTypes = {
     router: PropTypes.object.isRequired
   };
-  
-  state = {
-    openNaviDrawer: false
-  };
 
+  static childContextTypes = {
+    muiTheme: PropTypes.object.isRequired,
+  };
+  
   constructor(props) {
     super(props);
     this.openNaviDrawer = this.openNaviDrawer.bind(this);
@@ -48,6 +52,20 @@ class CoreLayout extends React.Component {
     );
   }
 
+
+  getChildContext() {
+    let theme = getMuiTheme(baseTheme);
+    console.log(theme);
+    return {muiTheme: theme};
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    const newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
+    this.setState({
+      muiTheme: newMuiTheme,
+    });
+  }
+
   changeNaviDrawerRequest = (open) => {
     this.setState(
       Object.assign({},
@@ -57,17 +75,24 @@ class CoreLayout extends React.Component {
   };
 
   pageNavi(event, value) {
+    console.log(event);
+    console.log(value);
     // this.context.router.push(value);
     // this.setState(Object.assign({}, this.state, {openNaviDrawer: false}));
   }
 
   render() {
     let {children} = this.props;
-
+    const title = "TRY";
+    
     return (
       <div className={classes.layoutContainer}>
-        <Header onClickMenuButton={this.openNaviDrawer}/>
+        <Header
+          title={title}
+          onClickMenuButton={this.openNaviDrawer}
+          showMenuButton={true}/>
         <NaviDrawer
+          title={title}
           openDrawer={this.state.openNaviDrawer}
           naviItem={createNaviItems}
           onSelectItem={this.pageNavi}

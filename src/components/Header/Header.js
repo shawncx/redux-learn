@@ -1,24 +1,45 @@
 import React, {PropTypes} from 'react';
 import AppBar from 'material-ui/AppBar';
-import classes from './Header.scss';
+import outerStyle from './Header.scss';
+import {spacing, typography, zIndex} from 'material-ui/styles';
+import {cyan500} from 'material-ui/styles/colors';
+
+const innerStyle = {
+  appBar: {
+    cursor: 'pointer',
+    fontSize: 24,
+    color: typography.textFullWhite,
+    fontWeight: typography.fontWeightLight,
+    backgroundColor: cyan500,
+    paddingLeft: spacing.desktopGutter,
+  },
+};
 
 class Header extends React.Component {
 
   static propTypes = {
-    onClickMenuButton: PropTypes.func.isRequired
+    title: PropTypes.string.isRequired,
+    showMenuButton: PropTypes.bool.isRequired,
+    onClickMenuButton: PropTypes.func
+  };
+  
+  static defaultTypes = {
+    onClickMenuButton: () => {}
+  }
+
+  static childContextTypes = {
+    muiTheme: PropTypes.object,
   };
 
   render() {
-
-    const {onClickMenuButton} = this.props;
-
+    const {title, showMenuButton, onClickMenuButton} = this.props;
     return (
-      <div className={classes.header}>
+      <div className={outerStyle.container}>
         <AppBar
-          title="TRY"
-          iconClassNameRight="muidocs-icon-navigation-expand-more"
+          style={innerStyle.appBar}
+          title={title}
           onLeftIconButtonTouchTap={onClickMenuButton}
-        />
+          showMenuIconButton={showMenuButton}/>
       </div>
     )
   }
