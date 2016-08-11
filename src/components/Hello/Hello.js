@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
+import outerStyle from './Hello.scss';
 
 class Hello extends React.Component {
 
@@ -12,7 +13,7 @@ class Hello extends React.Component {
 
   render() {
 return (
-  <div>
+  <div className={outerStyle.duck}>
     <h1>Hello!</h1>
     <RaisedButton onClick={this.handleClick} label="Default"/>
   </div>

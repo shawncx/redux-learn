@@ -6,12 +6,12 @@ import {cyan500} from 'material-ui/styles/colors';
 
 const innerStyle = {
   appBar: {
-    cursor: 'pointer',
     fontSize: 24,
     color: typography.textFullWhite,
     fontWeight: typography.fontWeightLight,
     backgroundColor: cyan500,
     paddingLeft: spacing.desktopGutter,
+    top: 0,
   },
 };
 
@@ -21,15 +21,16 @@ class Header extends React.Component {
     title: PropTypes.string.isRequired,
     showMenuButton: PropTypes.bool.isRequired,
     onClickMenuButton: PropTypes.func
-  };
+  }
   
   static defaultTypes = {
     onClickMenuButton: () => {}
   }
 
-  static childContextTypes = {
-    muiTheme: PropTypes.object,
-  };
+  static contextType = {
+    muiTheme: PropTypes.object.isRequired,
+  }
+
 
   render() {
     const {title, showMenuButton, onClickMenuButton} = this.props;
@@ -39,7 +40,8 @@ class Header extends React.Component {
           style={innerStyle.appBar}
           title={title}
           onLeftIconButtonTouchTap={onClickMenuButton}
-          showMenuIconButton={showMenuButton}/>
+          showMenuIconButton={showMenuButton}
+          zDepth={0}/>
       </div>
     )
   }

@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {Router} from 'react-router'
 import {Provider} from 'react-redux'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 class AppContainer extends Component {

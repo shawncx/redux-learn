@@ -3,15 +3,22 @@
  */
 import React, {PropTypes} from 'react';
 import Drawer from 'material-ui/Drawer';
-import Menu from 'material-ui/Menu';
-import MenuItem from 'material-ui/MenuItem';
+import FlatButton from 'material-ui/FlatButton';
 import Header from '../Header';
+import Divider from 'material-ui/Divider';
+import spacing from 'material-ui/styles/spacing';
 import outerStyle from './NaviDrawer.scss';
 
 const innerStyle = {
-  menuItem: {
-    // color: '#2fba20',
-    // backgroundColor: 'red'
+  headerDivider: {
+    paddingTop: spacing.desktopKeylineIncrement,
+  },
+  item: {
+    textAlign: 'left',
+    width: '100%',
+  },
+  itemLabel: {
+    fontWeight: 'normal',
   }
 };
 
@@ -38,16 +45,20 @@ class NaviDrawer extends React.Component {
         onRequestChange={changeDrawerRequest}>
         <Header
           title={title}
-          showMenuButton={false} />
-        <Menu >
-          {naviItem.map(item =>
-            <MenuItem 
-              innerDivStyle={innerStyle.menuItem} 
-              key={item.text} 
-              primaryText={item.text} 
-              value={item.value}/>
-          )}
-        </Menu>
+          showMenuButton={false}/>
+        <Divider style={innerStyle.headerDivider} />
+        {naviItem.map(item =>
+            <div
+              key={item.text}
+              className={outerStyle.itemContainer}>
+              <FlatButton
+                label={item.text}
+                value={item.value}
+                onClick={onSelectItem}
+                style={innerStyle.item}
+                labelStyle={innerStyle.itemLabel}/>
+            </div>
+        )}
       </Drawer>
     )
   }

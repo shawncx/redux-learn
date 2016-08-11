@@ -1,11 +1,15 @@
 import React, {PropTypes} from 'react';
 import Header from '../../components/Header';
 import NaviDrawer from '../../components/NaviDrawer';
+import Divider from 'material-ui/Divider';
+import Paper from 'material-ui/Paper';
+
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import spacing from 'material-ui/styles/spacing';
 
 import '../../styles/core.scss';
-import classes from './CoreLayout.scss';
+import outerStyle from './CoreLayout.scss';
 
 
 const createNaviItems = [
@@ -20,6 +24,17 @@ const createNaviItems = [
     value: '/hello'
   }
 ];
+
+const innerStyle = {
+  headerDivider: {
+    paddingTop: spacing.desktopKeylineIncrement,
+  },
+  paperContainer: {
+    position: 'relative',
+    right: '50%',
+    padding: '5px 25px 25px 25px',
+  }
+};
 
 class CoreLayout extends React.Component {
 
@@ -39,6 +54,7 @@ class CoreLayout extends React.Component {
     super(props);
     this.openNaviDrawer = this.openNaviDrawer.bind(this);
     this.changeNaviDrawerRequest = this.changeNaviDrawerRequest.bind(this);
+    this.pageNavi = this.pageNavi.bind(this);
     this.state = {
       openNaviDrawer: false
     };
@@ -55,15 +71,7 @@ class CoreLayout extends React.Component {
 
   getChildContext() {
     let theme = getMuiTheme(baseTheme);
-    console.log(theme);
     return {muiTheme: theme};
-  }
-
-  componentWillReceiveProps(nextProps, nextContext) {
-    const newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-    this.setState({
-      muiTheme: newMuiTheme,
-    });
   }
 
   changeNaviDrawerRequest = (open) => {
@@ -74,11 +82,10 @@ class CoreLayout extends React.Component {
     );
   };
 
-  pageNavi(event, value) {
-    console.log(event);
-    console.log(value);
-    // this.context.router.push(value);
-    // this.setState(Object.assign({}, this.state, {openNaviDrawer: false}));
+  pageNavi(event) {
+    const path = event.currentTarget.value;
+    this.setState(Object.assign({}, this.state, {openNaviDrawer: false}));
+    this.context.router.push(path);
   }
 
   render() {
@@ -86,7 +93,7 @@ class CoreLayout extends React.Component {
     const title = "TRY";
     
     return (
-      <div className={classes.layoutContainer}>
+      <div className={outerStyle.layoutContainer}>
         <Header
           title={title}
           onClickMenuButton={this.openNaviDrawer}
@@ -97,8 +104,15 @@ class CoreLayout extends React.Component {
           naviItem={createNaviItems}
           onSelectItem={this.pageNavi}
           changeDrawerRequest={this.changeNaviDrawerRequest}/>
-        <div className={classes.mainContainer}>
-          {children}
+        <Divider
+          style={innerStyle.headerDivider} />
+        <div
+          className={outerStyle.mainContainer}>
+          <Paper
+            zDepth={3}
+            style={innerStyle.paperContainer}>
+            {children}
+          </Paper>
         </div>
       </div>
     );
