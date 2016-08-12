@@ -15,7 +15,7 @@ import outerStyle from './CoreLayout.scss';
 const createNaviItems = [
   {
     text: 'Home',
-    value: '/'
+    value: '/home'
   }, {
     text: 'Counter',
     value: '/counter'
