@@ -1,3 +1,6 @@
+/**
+ * Created by works on 8/16/2016.
+ */
 import { combineReducers } from 'redux'
 import { routerReducer as router } from 'react-router-redux'
 
