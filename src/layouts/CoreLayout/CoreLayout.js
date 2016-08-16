@@ -39,7 +39,10 @@ const innerStyle = {
 class CoreLayout extends React.Component {
 
   static propTypes = {
-    children: PropTypes.element.isRequired
+    children: PropTypes.element.isRequired,
+    openMenu: PropTypes.func.isRequired,
+    closeMenu: PropTypes.func.isRequired,
+    isMenuOpen: PropTypes.bool.isRequired,
   };
 
   static contextTypes = {
@@ -52,58 +55,36 @@ class CoreLayout extends React.Component {
   
   constructor(props) {
     super(props);
-    this.openNaviDrawer = this.openNaviDrawer.bind(this);
-    this.changeNaviDrawerRequest = this.changeNaviDrawerRequest.bind(this);
     this.pageNavi = this.pageNavi.bind(this);
-    this.state = {
-      openNaviDrawer: false
-    };
   }
-  
-  openNaviDrawer() {
-    this.setState(
-      Object.assign({}, 
-        this.state,
-        {openNaviDrawer: true})
-    );
-  }
-
 
   getChildContext() {
     let theme = getMuiTheme(baseTheme);
     return {muiTheme: theme};
   }
 
-  changeNaviDrawerRequest = (open) => {
-    this.setState(
-      Object.assign({},
-        this.state,
-        {openNaviDrawer: open})
-    );
-  };
-
   pageNavi(event) {
     const path = event.currentTarget.value;
-    this.setState(Object.assign({}, this.state, {openNaviDrawer: false}));
+    this.props.closeMenu();
     this.context.router.push(path);
   }
 
   render() {
-    let {children} = this.props;
+    let {children, openMenu, closeMenu, isMenuOpen} = this.props;
     const title = "TRY";
     
     return (
       <div className={outerStyle.layoutContainer}>
         <Header
           title={title}
-          onClickMenuButton={this.openNaviDrawer}
+          onClickMenuButton={openMenu}
           showMenuButton={true}/>
         <NaviDrawer
           title={title}
-          openDrawer={this.state.openNaviDrawer}
+          openDrawer={isMenuOpen}
           naviItem={createNaviItems}
           onSelectItem={this.pageNavi}
-          changeDrawerRequest={this.changeNaviDrawerRequest}/>
+          changeDrawerRequest={closeMenu}/>
         <Divider
           style={innerStyle.headerDivider} />
         <div

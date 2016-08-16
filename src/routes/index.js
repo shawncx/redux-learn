@@ -1,21 +1,28 @@
 // We only need to import the modules necessary for initial render
-import CoreLayout from '../layouts/CoreLayout/CoreLayout';
 import Login from './LoginRoute';
 import CounterRoute from './CounterRoute';
 import HelloRoute from './HelloRoute';
+import { injectReducer } from '../reducers'
 
 /*  Note: Instead of using JSX, we recommend using react-router
  PlainRoute objects to build route definitions.   */
 
-export const createRoutes = (store) => ({
-  path: '/',
-  component: CoreLayout,
-  indexRoute: Login,
-  childRoutes: [
-    CounterRoute(store),
-    HelloRoute(store)
-  ]
-})
+export const createRoutes = (store) => {
+  
+  const CoreLayoutContainer = require('../containers/CoreLayoutContainer').default
+  const coreLayoutReducer = require('../reducers/coreLayoutReducer').default
+  injectReducer(store, { key: 'coreLayout', reducer: coreLayoutReducer })
+  
+  return ({
+    path: '/',
+    component: CoreLayoutContainer,
+    indexRoute: Login,
+    childRoutes: [
+      CounterRoute(store),
+      HelloRoute(store)
+    ]
+  })
+}
 
 /*  Note: childRoutes can be chunked or otherwise loaded programmatically
  using getChildRoutes with the following signature:

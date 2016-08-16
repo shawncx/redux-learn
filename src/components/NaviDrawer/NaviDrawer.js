@@ -10,6 +10,10 @@ import spacing from 'material-ui/styles/spacing';
 import outerStyle from './NaviDrawer.scss';
 
 const innerStyle = {
+  drawer: {
+    position: 'fixed',
+    zIndex: '9999',
+  },
   headerDivider: {
     paddingTop: spacing.desktopKeylineIncrement,
   },
@@ -42,10 +46,11 @@ class NaviDrawer extends React.Component {
       <Drawer
         docked={false}
         open={openDrawer}
-        onRequestChange={changeDrawerRequest}>
+        onRequestChange={changeDrawerRequest}
+        style={innerStyle.drawer}>
         <Header
           title={title}
-          showMenuButton={false}/>
+          showMenuButton={false} style={innerStyle.drawer}/>
         <Divider style={innerStyle.headerDivider} />
         {naviItem.map(item =>
             <div

@@ -12,6 +12,7 @@ const innerStyle = {
     backgroundColor: cyan500,
     paddingLeft: spacing.desktopGutter,
     top: 0,
+    height: '100%',
   },
 };
 
