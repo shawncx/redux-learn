@@ -22,6 +22,9 @@ const createNaviItems = [
   }, {
     text: 'Hello',
     value: '/hello'
+  }, {
+    text: 'Dashboard',
+    value: '/dashboard',
   }
 ];
 

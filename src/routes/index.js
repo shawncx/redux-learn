@@ -1,7 +1,7 @@
 // We only need to import the modules necessary for initial render
-import Login from './LoginRoute';
 import CounterRoute from './CounterRoute';
 import HelloRoute from './HelloRoute';
+import DashboardRoute from './DashboardRoute'
 import { injectReducer } from '../reducers'
 
 /*  Note: Instead of using JSX, we recommend using react-router
@@ -12,14 +12,20 @@ export const createRoutes = (store) => {
   const CoreLayoutContainer = require('../containers/CoreLayoutContainer').default
   const coreLayoutReducer = require('../reducers/coreLayoutReducer').default
   injectReducer(store, { key: 'coreLayout', reducer: coreLayoutReducer })
-  
+
+  const LoginContainer = require('../containers/LoginContainer').default
+  const loginReducer = require('../reducers/loginReducer').default
+  injectReducer(store, {key: 'login', reducer: loginReducer})
+
   return ({
     path: '/',
     component: CoreLayoutContainer,
-    indexRoute: Login,
+    indexRoute: {component: LoginContainer},
     childRoutes: [
+      // LoginRoute(store),
       CounterRoute(store),
-      HelloRoute(store)
+      HelloRoute(store),
+      DashboardRoute(store),
     ]
   })
 }

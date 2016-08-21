@@ -9,9 +9,14 @@ import outerStyle from './Login.scss'
 
 class Login extends React.Component {
 
-  static contextTypes = {
-    muiTheme: PropTypes.object.isRequired,
-  };
+  static propTypes = {
+    login: PropTypes.func,
+  }
+
+  onLogin = () => {
+    this.props.login(this.refs['usernameInput'].input.value,
+      this.refs['passwordInput'].input.value)
+  }
 
   render() {
 
@@ -22,6 +27,7 @@ class Login extends React.Component {
         <div 
           className={outerStyle.inputContainer}>
           <TextField
+            ref="usernameInput"
             hintText="Username"
             fullWidth={true}/>
           <br />
@@ -29,6 +35,7 @@ class Login extends React.Component {
         <div
           className={outerStyle.inputContainer}>
           <TextField
+            ref="passwordInput"
             hintText="Password"
             type="password"
             fullWidth={true}/>
@@ -37,7 +44,8 @@ class Login extends React.Component {
           className={outerStyle.buttonContainer}>
           <RaisedButton 
             primary={true} 
-            label="LOGIN" />
+            label="LOGIN"
+            onClick={this.onLogin}/>
         </div>
       </div>
     )
