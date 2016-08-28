@@ -16,7 +16,7 @@ function requestLogin() {
 function resolveLogin(json) {
   return {
     type: RESOLVE_LOGIN,
-    result: json.resource,
+    result: json,
   }
 }
 
