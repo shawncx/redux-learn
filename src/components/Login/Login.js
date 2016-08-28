@@ -1,16 +1,28 @@
 /**
  * Created by works on 8/12/2016.
  */
-import React, {PropTypes} from 'react';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-import Title from '../Title';
+import React, {PropTypes} from 'react'
+import TextField from 'material-ui/TextField'
+import RaisedButton from 'material-ui/RaisedButton'
+import Title from '../Title'
 import outerStyle from './Login.scss'
+
+import {replace} from 'react-router-redux'
 
 class Login extends React.Component {
 
   static propTypes = {
     login: PropTypes.func,
+    isLogin: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    username: PropTypes.string,
+  }
+
+  componentWillUpdate() {
+    console.log(this.props)
+    if(this.props.isLogin) {
+      replace('/dashboard')
+    }
   }
 
   onLogin = () => {
@@ -19,10 +31,11 @@ class Login extends React.Component {
   }
 
   render() {
-
+    const p = this.props
     return (
       <div 
         className={outerStyle.container}>
+        <h1>{p.isLoading}</h1>
         <Title title="Login"/>
         <div 
           className={outerStyle.inputContainer}>

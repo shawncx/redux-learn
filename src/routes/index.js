@@ -7,25 +7,39 @@ import { injectReducer } from '../reducers'
 /*  Note: Instead of using JSX, we recommend using react-router
  PlainRoute objects to build route definitions.   */
 
+const LoginRouter = (store) => {
+  const LoginContainer = require('../containers/LoginContainer').default
+  const loginReducer = require('../reducers/loginReducer').default
+  injectReducer(store, {key: 'login', reducer: loginReducer})
+  return LoginContainer
+}
+
+
+
 export const createRoutes = (store) => {
   
   const CoreLayoutContainer = require('../containers/CoreLayoutContainer').default
   const coreLayoutReducer = require('../reducers/coreLayoutReducer').default
   injectReducer(store, { key: 'coreLayout', reducer: coreLayoutReducer })
 
-  const LoginContainer = require('../containers/LoginContainer').default
-  const loginReducer = require('../reducers/loginReducer').default
-  injectReducer(store, {key: 'login', reducer: loginReducer})
+  const onEnter = (state, replace) => {
+    if(!store.getState().login || !store.getState().login.isLogin) {
+      replace({
+        pathname: '/',
+        state: {nextPathname: state.location.pathname}
+      })
+    }
+  }
 
   return ({
     path: '/',
     component: CoreLayoutContainer,
-    indexRoute: {component: LoginContainer},
+    indexRoute: {component: LoginRouter(store)},
     childRoutes: [
       // LoginRoute(store),
-      CounterRoute(store),
-      HelloRoute(store),
-      DashboardRoute(store),
+      CounterRoute(store, onEnter),
+      HelloRoute(store, onEnter),
+      DashboardRoute(store, onEnter),
     ]
   })
 }

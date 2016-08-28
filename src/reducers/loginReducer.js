@@ -1,23 +1,27 @@
 /**
  * Created by chenxiao on 8/21/16.
  */
-import {LOGIN} from '../actions/loginActions'
-import 'whatwg-fetch'
-
+import {REQUEST_LOGIN, RESOLVE_LOGIN} from '../actions/loginActions'
 
 
 const ACTION_HANDLERS = {
-  [LOGIN]: (state, action) => {
-    console.log('Try to log with ' + action.username + '/' + action.password)
-    fetch('/loginSuccess.json')
-      .then(data => console.log(data))
-      .catch(e => console.log(e))
-
+  [REQUEST_LOGIN]: (state, action) => {
+    return Object.assign({}, state, {isLoading: true})
   },
+  [RESOLVE_LOGIN]: (state, action) => {
+    return Object.assign({}, state,
+      {isLoading: false,
+        isLogin: action.result.isSuccess,
+        message: action.result.message,
+        username: action.result.username})
+  }
 }
 
 const initialState = {
   isLogin: false,
+  message: null,
+  username: null,
+  isLoading: false
 }
 
 export default function Reducer (state = initialState, action) {

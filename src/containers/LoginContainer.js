@@ -10,7 +10,9 @@ const mapActionCreators = {
 }
 
 const mapStateToProps = (state) => ({
-  isLogin: state.isLogin
+  isLogin: state.isLogin,
+  isLoading: state.isLoading,
+  username: state.username
 })
 
 
