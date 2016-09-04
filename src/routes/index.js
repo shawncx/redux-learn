@@ -8,10 +8,10 @@ import { injectReducer } from '../reducers'
  PlainRoute objects to build route definitions.   */
 
 const LoginRouter = (store) => {
-  const LoginContainer = require('../containers/LoginContainer').default
-  const loginReducer = require('../reducers/loginReducer').default
-  injectReducer(store, {key: 'login', reducer: loginReducer})
-  return LoginContainer
+  const Container = require('../containers/LoginContainer').default
+  const reducer = require('../reducers/loginReducer').default
+  injectReducer(store, {key: 'login', reducer})
+  return Container
 }
 
 

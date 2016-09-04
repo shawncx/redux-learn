@@ -24,7 +24,7 @@ const initialState = {
   isLoading: false
 }
 
-export default function Reducer (state = initialState, action) {
+export default function (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state
 }

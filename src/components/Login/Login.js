@@ -7,8 +7,6 @@ import RaisedButton from 'material-ui/RaisedButton'
 import Title from '../Title'
 import outerStyle from './Login.scss'
 
-import {replace} from 'react-router-redux'
-
 class Login extends React.Component {
 
   static propTypes = {
@@ -18,12 +16,6 @@ class Login extends React.Component {
     username: PropTypes.string,
   }
 
-  componentWillUpdate() {
-    console.log(this.props)
-    if(this.props.isLogin) {
-      replace('/dashboard')
-    }
-  }
 
   onLogin = () => {
     this.props.login(this.refs['usernameInput'].input.value,
@@ -33,8 +25,7 @@ class Login extends React.Component {
   render() {
     const p = this.props
     return (
-      <div 
-        className={outerStyle.container}>
+      <div className={outerStyle.container}>
         <h1>{p.isLoading}</h1>
         <Title title="Login"/>
         <div 

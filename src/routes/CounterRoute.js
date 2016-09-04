@@ -3,8 +3,6 @@
  */
 import { injectReducer } from '../reducers'
 
-
-
 export default (store) => ({
     path: 'counter',
     getComponent (nextState, cb) {

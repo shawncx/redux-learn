@@ -33,8 +33,6 @@ const innerStyle = {
     paddingTop: spacing.desktopKeylineIncrement,
   },
   paperContainer: {
-    position: 'relative',
-    right: '50%',
     padding: '5px 25px 25px 25px',
   }
 };

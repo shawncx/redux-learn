@@ -4,7 +4,13 @@
 }
 
 .mainContainer {
-  float:left;
-  margin-left:50%;
-  padding:60px 20px;
+  padding:40px 20px;
+
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 90%;
+  min-width: 40%;
 }

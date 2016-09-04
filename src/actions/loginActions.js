@@ -35,9 +35,3 @@ export function login(username, password) {
       .catch(e => console.log(e))
   }
 }
-
-export const actions = {
-  login,
-  requestLogin,
-  resolveLogin,
-}
