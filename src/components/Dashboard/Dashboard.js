@@ -36,24 +36,38 @@ const innerStyle = {
 class Dashboard extends React.Component {
 
   static propTypes = {
+    fetchMilestones: PropTypes.func,
     fetchTickets: PropTypes.func,
-    isLoading: PropTypes.bool,
+    isLoadingMilestones: PropTypes.bool,
+    isLoadingTickets: PropTypes.bool,
     leader: PropTypes.string,
     message: PropTypes.string,
+    milestones: PropTypes.array,
+    selectedMilestone: PropTypes.string,
     tickets: PropTypes.array,
   }
 
 
   componentDidMount() {
-    if(this.props.isLoading) {
-      this.props.fetchTickets(this.props.leader)
+    if(this.props.isLoadingMilestones) {
+      this.props.fetchMilestones()
     }
   }
 
+  onSelectMilestone = (event) => {
+    let milestone = event.currentTarget.value
+    this.props.fetchTickets(this.props.leader, milestone)
+  }
+
   render() {
-    const {isLoading, tickets} = this.props
-    console.log(tickets)
-    if(isLoading) {
+    const {
+      isLoadingMilestones,
+      isLoadingTickets,
+      milestones,
+      tickets
+    } = this.props
+
+    if(isLoadingMilestones) {
       return (
         <div
           className={outerStyle.container}>
@@ -61,30 +75,12 @@ class Dashboard extends React.Component {
         </div>
       )
     } else {
-      return (
-        <div
-          className={outerStyle.container}>
-          <Toolbar style={innerStyle.toolbar}>
-            <ToolbarGroup firstChild={true} style={innerStyle.toolbarGroup}>
-              <DropDownMenu>
-                <FlatButton value={1} label="All Broadcasts" style={innerStyle.item} labelStyle={innerStyle.itemLabel}/>
-                <FlatButton value={2} label="All Voice" style={innerStyle.item} labelStyle={innerStyle.itemLabel}/>
-                <FlatButton value={3} label="All Text" style={innerStyle.item} labelStyle={innerStyle.itemLabel}/>
-              </DropDownMenu>
-            </ToolbarGroup>
-            <ToolbarGroup>
-              <IconMenu
-                iconButtonElement={
-                  <IconButton touch={true}>
-                    <NavigationExpandMoreIcon />
-                  </IconButton>
-                }
-              >
-                <MenuItem primaryText="Maps" />
-                <MenuItem primaryText="Books" />
-              </IconMenu>
-            </ToolbarGroup>
-          </Toolbar>
+      let ticketsContent =
+        <div className={outerStyle.container}>
+          <h1>Loading...</h1>
+        </div>
+      if(!isLoadingTickets) {
+        ticketsContent =
           <Table>
             <TableHeader
               displaySelectAll={false}
@@ -112,6 +108,43 @@ class Dashboard extends React.Component {
               ))}
             </TableBody>
           </Table>
+      }
+
+      return (
+        <div
+          className={outerStyle.container}>
+          <Toolbar style={innerStyle.toolbar}>
+            <ToolbarGroup
+              firstChild={true}
+              style={innerStyle.toolbarGroup}>
+              <DropDownMenu>
+                {milestones.map((index, item) =>
+                  <FlatButton
+                    key={index}
+                    value={item.title}
+                    label={item.title}
+                    style={innerStyle.item}
+                    labelStyle={innerStyle.itemLabel}
+                    onClick={this.onSelectMilestone}/>)
+                }
+              </DropDownMenu>
+            </ToolbarGroup>
+            <ToolbarGroup>
+              <IconMenu
+                iconButtonElement={
+                  <IconButton touch={true}>
+                    <NavigationExpandMoreIcon />
+                  </IconButton>
+                }
+              >
+                <FlatButton
+                  label="Upload Tickets"
+                  style={innerStyle.item}
+                  labelStyle={innerStyle.itemLabel}/>
+              </IconMenu>
+            </ToolbarGroup>
+          </Toolbar>
+          {ticketsContent}
         </div>
       )
     }

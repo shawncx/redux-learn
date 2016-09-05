@@ -6,9 +6,10 @@ import 'whatwg-fetch'
 export const REQUEST_TICKETS = 'REQUEST_TICKETS'
 export const RESOLVE_TICKETS = 'RESOLVE_TICKETS'
 
-function requestTickets() {
+function requestTickets(milestone) {
   return {
-    type: REQUEST_TICKETS
+    type: REQUEST_TICKETS,
+    milestone: milestone,
   }
 }
 
@@ -19,10 +20,10 @@ function resolveTickets(json) {
   }
 }
 
-export function fetchTickets(leader) {
+export function fetchTickets(leader, milestone) {
   return dispatch => {
     dispatch(requestTickets())
-    return fetch('http://localhost:5000/ticketList/' + leader)
+    return fetch('http://localhost:5000/ticketList/' + leader + '/' + milestone)
       .then(response => response.json())
       .then(json => dispatch(resolveTickets(json)))
       .catch(e => console.log(e))

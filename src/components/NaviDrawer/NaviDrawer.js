@@ -41,7 +41,15 @@ class NaviDrawer extends React.Component {
   };
 
   render() {
-    const {title, openDrawer, naviItem, onSelectItem, changeDrawerRequest} = this.props;
+
+    const {
+      title,
+      openDrawer,
+      naviItem,
+      onSelectItem,
+      changeDrawerRequest
+    } = this.props;
+
     return (
       <Drawer
         docked={false}
@@ -50,7 +58,8 @@ class NaviDrawer extends React.Component {
         style={innerStyle.drawer}>
         <Header
           title={title}
-          showMenuButton={false} style={innerStyle.drawer}/>
+          showMenuButton={false}
+          style={innerStyle.drawer}/>
         <Divider style={innerStyle.headerDivider} />
         {naviItem.map(item =>
             <div
