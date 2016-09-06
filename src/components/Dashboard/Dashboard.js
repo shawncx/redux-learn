@@ -118,7 +118,7 @@ class Dashboard extends React.Component {
               firstChild={true}
               style={innerStyle.toolbarGroup}>
               <DropDownMenu>
-                {milestones.map((index, item) =>
+                {milestones.map((item, index) =>
                   <FlatButton
                     key={index}
                     value={item.title}
