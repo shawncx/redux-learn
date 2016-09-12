@@ -22,7 +22,7 @@ function resolveTickets(json) {
 
 export function fetchTickets(leader, milestone) {
   return dispatch => {
-    dispatch(requestTickets())
+    dispatch(requestTickets(milestone))
     return fetch('http://localhost:5000/ticketList/' + leader + '/' + milestone)
       .then(response => response.json())
       .then(json => dispatch(resolveTickets(json)))

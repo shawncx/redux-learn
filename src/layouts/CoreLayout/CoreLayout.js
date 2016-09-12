@@ -1,15 +1,15 @@
-import React, {PropTypes} from 'react';
-import Header from '../../components/Header';
-import NaviDrawer from '../../components/NaviDrawer';
-import Divider from 'material-ui/Divider';
-import Paper from 'material-ui/Paper';
+import React, {PropTypes} from 'react'
+import Header from '../../components/Header'
+import NaviDrawer from '../../components/NaviDrawer'
+import Divider from 'material-ui/Divider'
+import Paper from 'material-ui/Paper'
 
-import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import spacing from 'material-ui/styles/spacing';
-
-import '../../styles/core.scss';
-import outerStyle from './CoreLayout.scss';
+import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import spacing from 'material-ui/styles/spacing'
+import {browserHistory} from 'react-router'
+import '../../styles/core.scss'
+import outerStyle from './CoreLayout.scss'
 
 
 const createNaviItems = [
@@ -53,21 +53,15 @@ class CoreLayout extends React.Component {
   static childContextTypes = {
     muiTheme: PropTypes.object.isRequired,
   };
-  
-  constructor(props) {
-    super(props);
-    this.pageNavi = this.pageNavi.bind(this);
-  }
 
   getChildContext() {
     let theme = getMuiTheme(baseTheme);
     return {muiTheme: theme};
   }
 
-  pageNavi(event) {
-    const path = event.currentTarget.value;
+  pageNavi = (event, item) => {
     this.props.closeMenu();
-    this.context.router.push(path);
+    browserHistory.push(item.props.value);
   }
 
   render() {

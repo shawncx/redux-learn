@@ -2,15 +2,14 @@
  * Created by chenxiao on 8/21/16.
  */
 import React, {PropTypes} from 'react'
-import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import IconMenu from 'material-ui/IconMenu';
-import IconButton from 'material-ui/IconButton';
-import {MenuItem} from 'material-ui/Menu';
-import FlatButton from 'material-ui/FlatButton';
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
+import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar'
+import DropDownMenu from 'material-ui/DropDownMenu'
+import IconMenu from 'material-ui/IconMenu'
+import IconButton from 'material-ui/IconButton'
+import {MenuItem} from 'material-ui/Menu'
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more'
 
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
 import outerStyle from './Dashboard.scss'
 
 const innerStyle = {
@@ -20,17 +19,6 @@ const innerStyle = {
   toolbarGroup: {
     maxWidth: '20%'
   },
-  item: {
-    textAlign: 'left',
-    width: '100%'
-  },
-  itemLabel: {
-    fontWeight: 'normal',
-  },
-  menuItem: {
-    backgroundColor: 'white',
-    hoverColor: 'red'
-  }
 }
 
 class Dashboard extends React.Component {
@@ -54,9 +42,8 @@ class Dashboard extends React.Component {
     }
   }
 
-  onSelectMilestone = (event) => {
-    let milestone = event.currentTarget.value
-    this.props.fetchTickets(this.props.leader, milestone)
+  onSelectMilestone = (event, index, value) => {
+    this.props.fetchTickets(this.props.leader, value)
   }
 
   render() {
@@ -64,7 +51,8 @@ class Dashboard extends React.Component {
       isLoadingMilestones,
       isLoadingTickets,
       milestones,
-      tickets
+      tickets,
+      selectedMilestone,
     } = this.props
 
     if(isLoadingMilestones) {
@@ -117,15 +105,14 @@ class Dashboard extends React.Component {
             <ToolbarGroup
               firstChild={true}
               style={innerStyle.toolbarGroup}>
-              <DropDownMenu>
+              <DropDownMenu
+                value={selectedMilestone}
+                onChange={this.onSelectMilestone}>
                 {milestones.map((item, index) =>
-                  <FlatButton
+                  <MenuItem
                     key={index}
                     value={item.title}
-                    label={item.title}
-                    style={innerStyle.item}
-                    labelStyle={innerStyle.itemLabel}
-                    onClick={this.onSelectMilestone}/>)
+                    primaryText={item.title}/>)
                 }
               </DropDownMenu>
             </ToolbarGroup>
@@ -137,10 +124,7 @@ class Dashboard extends React.Component {
                   </IconButton>
                 }
               >
-                <FlatButton
-                  label="Upload Tickets"
-                  style={innerStyle.item}
-                  labelStyle={innerStyle.itemLabel}/>
+                <MenuItem primaryText="Download" />
               </IconMenu>
             </ToolbarGroup>
           </Toolbar>

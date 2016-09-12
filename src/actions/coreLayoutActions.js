@@ -1,7 +1,7 @@
 /**
  * Created by works on 8/16/2016.
  */
-export const TOGGLE_MENU = 'TOGGLE_MENU';
+export const TOGGLE_MENU = 'TOGGLE_MENU'
 
 export function openMenu() {
   console.log("openMenu")

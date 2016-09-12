@@ -14,12 +14,13 @@ const mapActionCreators = {
 const mapStateToProps = state => {
   return {
     leader: state.login.username,
-    isLoadingMilestones: state.dashboard.isLoadingMilestones,
-    isLoadingTickets: state.dashboard.isLoadingTickets,
-    message: state.dashboard.message,
-    milestones: state.dashboard.milestones,
-    selectedMilestone: state.dashboard.selectedMilestone,
-    tickets: state.dashboard.tickets,
+    isLoadingMilestones: state.milestone.isLoadingMilestones,
+    isLoadingTickets: state.ticket.isLoadingTickets,
+    milestoneMessage: state.milestone.message,
+    ticketMessage: state.ticket.message,
+    milestones: state.milestone.milestones,
+    selectedMilestone: state.milestone.selectedMilestone,
+    tickets: state.ticket.tickets,
   }
 }
 

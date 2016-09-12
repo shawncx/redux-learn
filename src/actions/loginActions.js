@@ -2,7 +2,7 @@
  * Created by chenxiao on 8/21/16.
  */
 import 'whatwg-fetch'
-import {push} from 'react-router-redux'
+import {browserHistory} from 'react-router'
 
 export const REQUEST_LOGIN = 'REQUEST_LOGIN'
 export const RESOLVE_LOGIN = 'FETCH_LOGIN'
@@ -29,7 +29,7 @@ export function login(username, password) {
       .then(json => dispatch(resolveLogin(json)))
       .then((data) => {
         if(data.result.isSuccess){
-          dispatch(push({pathname: '/dashboard', state: {isLogin: true}}))
+          browserHistory.push({pathname: '/dashboard'})
         }
       })
       .catch(e => console.log(e))

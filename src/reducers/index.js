@@ -1,20 +1,8 @@
 /**
  * Created by works on 8/16/2016.
  */
-import { combineReducers } from 'redux'
-import { routerReducer as router } from 'react-router-redux'
 
-export const makeRootReducer = (asyncReducers) => {
-  return combineReducers({
-    // Add sync reducers here
-    router,
-    ...asyncReducers
-  })
-}
-
-export const injectReducer = (store, { key, reducer }) => {
-  store.asyncReducers[key] = reducer
-  store.replaceReducer(makeRootReducer(store.asyncReducers))
-}
-
-export default makeRootReducer
+export coreLayout from './coreLayout'
+export login from './login'
+export milestone from './milestone'
+export ticket from './ticket'

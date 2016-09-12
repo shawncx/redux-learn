@@ -1,13 +1,13 @@
 /**
  * Created by works on 8/5/2016.
  */
-import React, {PropTypes} from 'react';
-import Drawer from 'material-ui/Drawer';
-import FlatButton from 'material-ui/FlatButton';
-import Header from '../Header';
-import Divider from 'material-ui/Divider';
-import spacing from 'material-ui/styles/spacing';
-import outerStyle from './NaviDrawer.scss';
+import React, {PropTypes} from 'react'
+import Drawer from 'material-ui/Drawer'
+import Menu from 'material-ui/Menu'
+import MenuItem from 'material-ui/MenuItem'
+import Header from '../Header'
+import Divider from 'material-ui/Divider'
+import spacing from 'material-ui/styles/spacing'
 
 const innerStyle = {
   drawer: {
@@ -16,13 +16,6 @@ const innerStyle = {
   },
   headerDivider: {
     paddingTop: spacing.desktopKeylineIncrement,
-  },
-  item: {
-    textAlign: 'left',
-    width: '100%',
-  },
-  itemLabel: {
-    fontWeight: 'normal',
   }
 };
 
@@ -61,18 +54,14 @@ class NaviDrawer extends React.Component {
           showMenuButton={false}
           style={innerStyle.drawer}/>
         <Divider style={innerStyle.headerDivider} />
-        {naviItem.map(item =>
-            <div
-              key={item.text}
-              className={outerStyle.itemContainer}>
-              <FlatButton
-                label={item.text}
-                value={item.value}
-                onClick={onSelectItem}
-                style={innerStyle.item}
-                labelStyle={innerStyle.itemLabel}/>
-            </div>
-        )}
+        <Menu onItemTouchTap={onSelectItem}>
+          {naviItem.map((item, index) =>
+            <MenuItem
+              key={index}
+              primaryText={item.text}
+              value={item.value} />
+          )}
+        </Menu>
       </Drawer>
     )
   }

@@ -10,10 +10,12 @@ const ACTION_HANDLERS = {
   },
   [RESOLVE_LOGIN]: (state, action) => {
     return Object.assign({}, state,
-      {isLoading: false,
+      {
+        isLoading: false,
         isLogin: action.result.isSuccess,
         message: action.result.message,
-        username: action.result.username})
+        username: action.result.username
+      })
   }
 }
 
