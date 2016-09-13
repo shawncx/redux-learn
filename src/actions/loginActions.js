@@ -5,7 +5,9 @@ import 'whatwg-fetch'
 import {browserHistory} from 'react-router'
 
 export const REQUEST_LOGIN = 'REQUEST_LOGIN'
-export const RESOLVE_LOGIN = 'FETCH_LOGIN'
+export const RESOLVE_LOGIN = 'RESOLVE_LOGIN'
+
+export const REQUIRE_LOGIN = 'REQUIRE_LOGIN'
 
 function requestLogin() {
   return {
@@ -33,5 +35,11 @@ export function login(username, password) {
         }
       })
       .catch(e => console.log(e))
+  }
+}
+
+export function requireLogin() {
+  return {
+    type: REQUIRE_LOGIN
   }
 }

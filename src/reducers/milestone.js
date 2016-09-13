@@ -25,7 +25,6 @@ const initialState = {
   isLoading: true,
   message: null,
   milestones: [],
-  selectedMilestone: null,
 }
 
 export default function (state = initialState, action) {

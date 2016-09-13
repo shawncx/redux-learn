@@ -5,4 +5,4 @@
 export coreLayout from './coreLayout'
 export login from './login'
 export milestone from './milestone'
-export ticket from './ticket'
+export ticket from './workload'

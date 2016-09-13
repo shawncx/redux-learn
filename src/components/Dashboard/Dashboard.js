@@ -25,14 +25,16 @@ class Dashboard extends React.Component {
 
   static propTypes = {
     fetchMilestones: PropTypes.func,
-    fetchTickets: PropTypes.func,
+    fetchWorkloads: PropTypes.func,
     isLoadingMilestones: PropTypes.bool,
-    isLoadingTickets: PropTypes.bool,
-    leader: PropTypes.string,
+    isLoadingWorkloads: PropTypes.bool,
+    team: PropTypes.string,
     message: PropTypes.string,
     milestones: PropTypes.array,
     selectedMilestone: PropTypes.string,
     tickets: PropTypes.array,
+    developmentWorkload: PropTypes.object,
+    evaluationWorkload: PropTypes.object,
   }
 
 
@@ -43,16 +45,18 @@ class Dashboard extends React.Component {
   }
 
   onSelectMilestone = (event, index, value) => {
-    this.props.fetchTickets(this.props.leader, value)
+    this.props.fetchWorkloads(this.props.team, value)
   }
 
   render() {
     const {
       isLoadingMilestones,
-      isLoadingTickets,
+      isLoadingWorkloads,
       milestones,
       tickets,
       selectedMilestone,
+      developmentWorkload,
+      evaluationWorkload,
     } = this.props
 
     if(isLoadingMilestones) {
@@ -67,35 +71,53 @@ class Dashboard extends React.Component {
         <div className={outerStyle.container}>
           <h1>Loading...</h1>
         </div>
-      if(!isLoadingTickets) {
+      if(!isLoadingWorkloads) {
         ticketsContent =
-          <Table>
-            <TableHeader
-              displaySelectAll={false}
-              adjustForCheckbox={false}>
-              <TableRow>
-                <TableHeaderColumn>No</TableHeaderColumn>
-                <TableHeaderColumn>Title</TableHeaderColumn>
-                <TableHeaderColumn>Develop Man-Day</TableHeaderColumn>
-                <TableHeaderColumn>Develop Progress</TableHeaderColumn>
-                <TableHeaderColumn>Evaluation Man-Day</TableHeaderColumn>
-                <TableHeaderColumn>Evaluation Progress</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody
-              displayRowCheckbox={false}>
-              {tickets.map((row, index) => (
-                <TableRow key={index}>
-                  <TableRowColumn>{row.no}</TableRowColumn>
-                  <TableRowColumn>{row.title}</TableRowColumn>
-                  <TableRowColumn>{row.developManDay}</TableRowColumn>
-                  <TableRowColumn>{row.developProgress}</TableRowColumn>
-                  <TableRowColumn>{row.evaluationManDay}</TableRowColumn>
-                  <TableRowColumn>{row.evaluationProgress}</TableRowColumn>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <div>
+            <div>
+              <Table>
+                <TableHeader
+                  displaySelectAll={false}
+                  adjustForCheckbox={false}>
+                  <TableRow>
+                    <TableHeaderColumn>No</TableHeaderColumn>
+                    <TableHeaderColumn>Title</TableHeaderColumn>
+                    <TableHeaderColumn>Developer</TableHeaderColumn>
+                    <TableHeaderColumn>Development Man-Day</TableHeaderColumn>
+                    <TableHeaderColumn>Development Progress</TableHeaderColumn>
+                    <TableHeaderColumn>evaluator</TableHeaderColumn>
+                    <TableHeaderColumn>Evaluation Man-Day</TableHeaderColumn>
+                    <TableHeaderColumn>Evaluation Progress</TableHeaderColumn>
+                  </TableRow>
+                </TableHeader>
+                <TableBody
+                  displayRowCheckbox={false}>
+                  {tickets.map((row, index) => (
+                    <TableRow key={index}>
+                      <TableRowColumn>{row.no}</TableRowColumn>
+                      <TableRowColumn>{row.title}</TableRowColumn>
+                      <TableRowColumn>{row.developer}</TableRowColumn>
+                      <TableRowColumn>{row.developmentManDay}</TableRowColumn>
+                      <TableRowColumn>{row.developmentProgress}</TableRowColumn>
+                      <TableRowColumn>{row.evaluator}</TableRowColumn>
+                      <TableRowColumn>{row.evaluationManDay}</TableRowColumn>
+                      <TableRowColumn>{row.evaluationProgress}</TableRowColumn>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+            <div>
+              <Table>
+
+              </Table>
+            </div>
+            <div>
+              <Table>
+
+              </Table>
+            </div>
+          </div>
       }
 
       return (

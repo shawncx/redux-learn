@@ -1,7 +1,7 @@
 /**
  * Created by chenxiao on 8/21/16.
  */
-import {REQUEST_LOGIN, RESOLVE_LOGIN} from '../actions/loginActions'
+import {REQUEST_LOGIN, RESOLVE_LOGIN, REQUIRE_LOGIN} from '../actions/loginActions'
 
 
 const ACTION_HANDLERS = {
@@ -14,7 +14,14 @@ const ACTION_HANDLERS = {
         isLoading: false,
         isLogin: action.result.isSuccess,
         message: action.result.message,
-        username: action.result.username
+        username: action.result.username,
+        team: action.result.team,
+      })
+  }, 
+  [REQUIRE_LOGIN]: (state) => {
+    return Object.assign({}, state, 
+      {
+        message: 'Please login!'
       })
   }
 }
@@ -23,7 +30,8 @@ const initialState = {
   isLogin: false,
   message: null,
   username: null,
-  isLoading: false
+  team: null, 
+  isLoading: false,
 }
 
 export default function (state = initialState, action) {

@@ -14,6 +14,7 @@ class Login extends React.Component {
     isLogin: PropTypes.bool,
     isLoading: PropTypes.bool,
     username: PropTypes.string,
+    message: PropTypes.string,
   }
 
 
@@ -23,10 +24,9 @@ class Login extends React.Component {
   }
 
   render() {
-    const p = this.props
+    const {message} = this.props
     return (
       <div className={outerStyle.container}>
-        <h1>{p.isLoading}</h1>
         <Title title="Login"/>
         <div 
           className={outerStyle.inputContainer}>
@@ -43,6 +43,9 @@ class Login extends React.Component {
             hintText="Password"
             type="password"
             fullWidth={true}/>
+        </div>
+        <div style={{ color: 'red' }}>
+          <p>{message}</p>
         </div>
         <div 
           className={outerStyle.buttonContainer}>

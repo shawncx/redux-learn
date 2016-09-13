@@ -3,7 +3,7 @@
  */
 import {connect} from 'react-redux'
 import {fetchMilestones} from '../actions/milestoneActions'
-import {fetchTickets} from '../actions/ticketActions'
+import {fetchTickets} from '../actions/workloadActions'
 import Dashboard from '../components/Dashboard'
 
 const mapActionCreators = {
@@ -13,14 +13,16 @@ const mapActionCreators = {
 
 const mapStateToProps = state => {
   return {
-    leader: state.login.username,
-    isLoadingMilestones: state.milestone.isLoadingMilestones,
-    isLoadingTickets: state.ticket.isLoadingTickets,
+    team: state.login.team,
+    isLoadingMilestones: state.milestone.isLoading,
+    isLoadingWorkloads: state.workload.isLoading,
     milestoneMessage: state.milestone.message,
-    ticketMessage: state.ticket.message,
+    workloadMessage: state.workload.message,
     milestones: state.milestone.milestones,
-    selectedMilestone: state.milestone.selectedMilestone,
-    tickets: state.ticket.tickets,
+    selectedMilestone: state.workload.selectedMilestone,
+    tickets: state.workload.tickets,
+    developmentWorkload: state.workload.developmentWorkload, 
+    evaluationWorkload: state.workload.evaluationWorkload,
   }
 }
 

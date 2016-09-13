@@ -13,7 +13,8 @@ const mapStateToProps = state => {
   return {
     isLogin: state.login.isLogin,
     isLoading: state.login.isLoading,
-    username: state.login.username
+    username: state.login.username,
+    message: state.login.message,
   }
 }
 
