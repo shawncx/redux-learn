@@ -10,6 +10,7 @@ class Title extends React.Component {
     color: PropTypes.string,
     fontSize: PropTypes.string,
     fontWeight: PropTypes.number,
+    marginBottom: PropTypes.string,
   }
 
   static defaultProps = {
@@ -17,16 +18,17 @@ class Title extends React.Component {
     color: '#03A9F4',
     fontSize: '30px',
     fontWeight: 300,
+    marginBottom: '15px',
   }
 
   render() {
-    const {title, color, fontSize, fontWeight} = this.props;
+    const {title, color, fontSize, fontWeight, marginBottom} = this.props;
     
     const style = {
       color,
       fontSize,
       fontWeight, 
-      marginBottom: '15px',
+      marginBottom,
     };
     
     return (

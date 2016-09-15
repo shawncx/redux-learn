@@ -10,6 +10,8 @@ import {MenuItem} from 'material-ui/Menu'
 import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
+import Title from '../Title'
+import TextField from 'material-ui/TextField'
 
 import {
   Table,
@@ -289,11 +291,104 @@ class Dashboard extends React.Component {
           {workloads}
 
           <Dialog
-            title="Dialog With Actions"
+            title="Ticket Workload"
             actions={dialogActions}
             modal={true}
-            open={this.state.openDialog}>
-            {this.state.selectedTicket.title}
+            open={this.state.openDialog}
+            autoScrollBodyContent={true}>
+            <div className={outerStyle.container}>
+              <Title
+                title="Number"
+                color="black"
+                fontSize="20px"
+                marginBottom="0px"/>
+              <TextField
+                disabled={true}
+                fullWidth={true}
+                id="text-field-disabled"
+                value={this.state.selectedTicket.no}/>
+            </div>
+            <div className={outerStyle.container}>
+              <Title
+                title="Title"
+                color="black"
+                fontSize="20px"
+                marginBottom="0px"/>
+              <TextField
+                disabled={true}
+                fullWidth={true}
+                id="text-field-disabled"
+                value={this.state.selectedTicket.title}/>
+            </div>
+            <div className={outerStyle.container}>
+              <Title
+                title="Developer"
+                color="black"
+                fontSize="20px"
+                marginBottom="0px"/>
+              <TextField
+                disabled={true}
+                fullWidth={true}
+                id="text-field-disabled"
+                value={this.state.selectedTicket.developer}/>
+            </div>
+            <div className={outerStyle.container}>
+              <Title
+                title="Development Man-Day"
+                color="black"
+                fontSize="20px"
+                marginBottom="0px"/>
+              <TextField
+                fullWidth={true}
+                id="text-field-disabled"
+                value={this.state.selectedTicket.developmentManDay}/>
+            </div>
+            <div className={outerStyle.container}>
+              <Title
+                title="Development Progress"
+                color="black"
+                fontSize="20px"
+                marginBottom="0px"/>
+              <TextField
+                fullWidth={true}
+                id="text-field-disabled"
+                value={this.state.selectedTicket.developmentProgress}/>
+            </div>
+            <div className={outerStyle.container}>
+              <Title
+                title="Evaluator"
+                color="black"
+                fontSize="20px"
+                marginBottom="0px"/>
+              <TextField
+                disabled={true}
+                fullWidth={true}
+                id="text-field-disabled"
+                value={this.state.selectedTicket.evaluator}/>
+            </div>
+            <div className={outerStyle.container}>
+              <Title
+                title="Evaluation Man-Day"
+                color="black"
+                fontSize="20px"
+                marginBottom="0px"/>
+              <TextField
+                fullWidth={true}
+                id="text-field-disabled"
+                value={this.state.selectedTicket.evaluationManDay}/>
+            </div>
+            <div className={outerStyle.container}>
+              <Title
+                title="Evaluation Progress"
+                color="black"
+                fontSize="20px"
+                marginBottom="0px"/>
+              <TextField
+                fullWidth={true}
+                id="text-field-disabled"
+                value={this.state.selectedTicket.evaluationProgress}/>
+            </div>
+
           </Dialog>
         </div>
       )
