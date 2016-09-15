@@ -17,7 +17,6 @@ class Login extends React.Component {
     message: PropTypes.string,
   }
 
-
   onLogin = () => {
     this.props.login(this.refs['usernameInput'].input.value,
       this.refs['passwordInput'].input.value)

@@ -39,11 +39,12 @@ const innerStyle = {
 
 class CoreLayout extends React.Component {
 
+  state = {
+    openMenu: false,
+  }
+
   static propTypes = {
     children: PropTypes.element.isRequired,
-    openMenu: PropTypes.func.isRequired,
-    closeMenu: PropTypes.func.isRequired,
-    isMenuOpen: PropTypes.bool.isRequired,
   };
 
   static contextTypes = {
@@ -64,22 +65,29 @@ class CoreLayout extends React.Component {
     browserHistory.push(item.props.value);
   }
 
+  toggleMenu = () => {
+    this.setState(Object.assign({}, this.state,
+      {
+        openMenu: !this.state.openMenu,
+      }))
+  }
+
   render() {
-    let {children, openMenu, closeMenu, isMenuOpen} = this.props;
+    let {children} = this.props;
     const title = "TRY";
     
     return (
       <div className={outerStyle.layoutContainer}>
         <Header
           title={title}
-          onClickMenuButton={openMenu}
+          onClickMenuButton={this.toggleMenu}
           showMenuButton={true}/>
         <NaviDrawer
           title={title}
-          openDrawer={isMenuOpen}
+          openDrawer={this.state.openMenu}
           naviItem={createNaviItems}
           onSelectItem={this.pageNavi}
-          changeDrawerRequest={closeMenu}/>
+          changeDrawerRequest={this.toggleMenu}/>
         <Divider
           style={innerStyle.headerDivider} />
         <div

@@ -50,7 +50,6 @@ class Dashboard extends React.Component {
     evaluationWorkload: PropTypes.object,
   }
 
-
   componentDidMount() {
     if (this.props.isLoadingMilestones) {
       this.props.fetchMilestones()
@@ -188,7 +187,7 @@ class Dashboard extends React.Component {
                 <TableHeaderColumn>Developer</TableHeaderColumn>
                 <TableHeaderColumn>Development Man-Day</TableHeaderColumn>
                 <TableHeaderColumn>Development Progress</TableHeaderColumn>
-                <TableHeaderColumn>evaluator</TableHeaderColumn>
+                <TableHeaderColumn>Evaluator</TableHeaderColumn>
                 <TableHeaderColumn>Evaluation Man-Day</TableHeaderColumn>
                 <TableHeaderColumn>Evaluation Progress</TableHeaderColumn>
               </TableRow>
