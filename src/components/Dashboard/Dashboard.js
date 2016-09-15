@@ -2,26 +2,37 @@
  * Created by chenxiao on 8/21/16.
  */
 import React, {PropTypes} from 'react'
-import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar'
+import {Toolbar, ToolbarGroup, ToolbarTitle, ToolbarSeparator} from 'material-ui/Toolbar'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
 import {MenuItem} from 'material-ui/Menu'
 import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
 
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn
+} from 'material-ui/Table'
 import outerStyle from './Dashboard.scss'
 
 const innerStyle = {
   toolbar: {
-    marginTop: '10px'
-  },
-  toolbarGroup: {
-    maxWidth: '20%'
+    marginTop: '10px',
   },
 }
 
 class Dashboard extends React.Component {
+
+  state = {
+    openDialog: false,
+    selectedTicket: {},
+  }
 
   static propTypes = {
     fetchMilestones: PropTypes.func,
@@ -39,13 +50,88 @@ class Dashboard extends React.Component {
 
 
   componentDidMount() {
-    if(this.props.isLoadingMilestones) {
+    if (this.props.isLoadingMilestones) {
       this.props.fetchMilestones()
     }
   }
 
   onSelectMilestone = (event, index, value) => {
     this.props.fetchWorkloads(this.props.team, value)
+  }
+
+  onSelectTicket = (index) => {
+    return event => {
+      this.setState(Object.assign({}, this.state, 
+        {
+          openDialog: true, 
+          selectedTicket: this.props.tickets[index]
+        }
+      ))
+    }
+  }
+  
+  closeDialog = () => {
+    this.setState(Object.assign({}, this.state,
+      {
+        openDialog: false,
+      }
+    ))
+  }
+  
+
+  createWorkloadTable = workload => {
+    if (workload) {
+      return (
+        <Table>
+          <TableHeader
+            displaySelectAll={false}
+            adjustForCheckbox={false}>
+            <TableRow>
+              <TableHeaderColumn></TableHeaderColumn>
+              <TableHeaderColumn>Available</TableHeaderColumn>
+              <TableHeaderColumn>Support</TableHeaderColumn>
+              <TableHeaderColumn>Cost</TableHeaderColumn>
+              <TableHeaderColumn>Remain</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody
+            displayRowCheckbox={false}>
+            {workload.personalWorkloads.map((row, index) => (
+              <TableRow key={index}>
+                <TableRowColumn>{row.name}</TableRowColumn>
+                <TableRowColumn>{row.available}</TableRowColumn>
+                <TableRowColumn>{row.support}</TableRowColumn>
+                <TableRowColumn>{row.cost}</TableRowColumn>
+                <TableRowColumn>{row.remain}</TableRowColumn>
+              </TableRow>
+            ))}
+            <TableRow>
+              <TableHeaderColumn></TableHeaderColumn>
+              <TableRowColumn>{workload.totalAvailable}</TableRowColumn>
+              <TableRowColumn>{workload.totalSupport}</TableRowColumn>
+              <TableRowColumn>{workload.totalCost}</TableRowColumn>
+              <TableRowColumn>{workload.totalRemain}</TableRowColumn>
+            </TableRow>
+          </TableBody>
+        </Table>
+      )
+    } else {
+      return (
+        <Table>
+          <TableHeader
+            displaySelectAll={false}
+            adjustForCheckbox={false}>
+            <TableRow>
+              <TableHeaderColumn></TableHeaderColumn>
+              <TableHeaderColumn>Available</TableHeaderColumn>
+              <TableHeaderColumn>Support</TableHeaderColumn>
+              <TableHeaderColumn>Cost</TableHeaderColumn>
+              <TableHeaderColumn>Remain</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+        </Table>
+      )
+    }
   }
 
   render() {
@@ -59,7 +145,7 @@ class Dashboard extends React.Component {
       evaluationWorkload,
     } = this.props
 
-    if(isLoadingMilestones) {
+    if (isLoadingMilestones) {
       return (
         <div
           className={outerStyle.container}>
@@ -67,66 +153,117 @@ class Dashboard extends React.Component {
         </div>
       )
     } else {
-      let ticketsContent =
+
+      let ticketTable =
+        <div>
+          <Table>
+            <TableHeader
+              displaySelectAll={false}
+              adjustForCheckbox={false}>
+              <TableRow>
+                <TableHeaderColumn>No</TableHeaderColumn>
+                <TableHeaderColumn>Title</TableHeaderColumn>
+                <TableHeaderColumn>Developer</TableHeaderColumn>
+                <TableHeaderColumn>Development Man-Day</TableHeaderColumn>
+                <TableHeaderColumn>Development Progress</TableHeaderColumn>
+                <TableHeaderColumn>evaluator</TableHeaderColumn>
+                <TableHeaderColumn>Evaluation Man-Day</TableHeaderColumn>
+                <TableHeaderColumn>Evaluation Progress</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+          </Table>
+        </div>
+
+      if (tickets) {
+        ticketTable =
+          <Table>
+            <TableHeader
+              displaySelectAll={false}
+              adjustForCheckbox={false}>
+              <TableRow>
+                <TableHeaderColumn>No</TableHeaderColumn>
+                <TableHeaderColumn>Title</TableHeaderColumn>
+                <TableHeaderColumn>Developer</TableHeaderColumn>
+                <TableHeaderColumn>Development Man-Day</TableHeaderColumn>
+                <TableHeaderColumn>Development Progress</TableHeaderColumn>
+                <TableHeaderColumn>evaluator</TableHeaderColumn>
+                <TableHeaderColumn>Evaluation Man-Day</TableHeaderColumn>
+                <TableHeaderColumn>Evaluation Progress</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody
+              displayRowCheckbox={false}>
+              {tickets.map((row, index) => (
+                <TableRow key={index} onDoubleClick={this.onSelectTicket(index)}>
+                  <TableRowColumn>{row.no}</TableRowColumn>
+                  <TableRowColumn>{row.title}</TableRowColumn>
+                  <TableRowColumn>{row.developer}</TableRowColumn>
+                  <TableRowColumn>{row.developmentManDay}</TableRowColumn>
+                  <TableRowColumn>{row.developmentProgress}</TableRowColumn>
+                  <TableRowColumn>{row.evaluator}</TableRowColumn>
+                  <TableRowColumn>{row.evaluationManDay}</TableRowColumn>
+                  <TableRowColumn>{row.evaluationProgress}</TableRowColumn>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+      }
+
+      const developmentWorkloadTable = this.createWorkloadTable(developmentWorkload)
+      const evaluationWorkloadTable = this.createWorkloadTable(evaluationWorkload)
+
+      let workloads =
         <div className={outerStyle.container}>
           <h1>Loading...</h1>
         </div>
-      if(!isLoadingWorkloads) {
-        ticketsContent =
+
+      if (!isLoadingWorkloads) {
+        workloads =
           <div>
             <div>
-              <Table>
-                <TableHeader
-                  displaySelectAll={false}
-                  adjustForCheckbox={false}>
-                  <TableRow>
-                    <TableHeaderColumn>No</TableHeaderColumn>
-                    <TableHeaderColumn>Title</TableHeaderColumn>
-                    <TableHeaderColumn>Developer</TableHeaderColumn>
-                    <TableHeaderColumn>Development Man-Day</TableHeaderColumn>
-                    <TableHeaderColumn>Development Progress</TableHeaderColumn>
-                    <TableHeaderColumn>evaluator</TableHeaderColumn>
-                    <TableHeaderColumn>Evaluation Man-Day</TableHeaderColumn>
-                    <TableHeaderColumn>Evaluation Progress</TableHeaderColumn>
-                  </TableRow>
-                </TableHeader>
-                <TableBody
-                  displayRowCheckbox={false}>
-                  {tickets.map((row, index) => (
-                    <TableRow key={index}>
-                      <TableRowColumn>{row.no}</TableRowColumn>
-                      <TableRowColumn>{row.title}</TableRowColumn>
-                      <TableRowColumn>{row.developer}</TableRowColumn>
-                      <TableRowColumn>{row.developmentManDay}</TableRowColumn>
-                      <TableRowColumn>{row.developmentProgress}</TableRowColumn>
-                      <TableRowColumn>{row.evaluator}</TableRowColumn>
-                      <TableRowColumn>{row.evaluationManDay}</TableRowColumn>
-                      <TableRowColumn>{row.evaluationProgress}</TableRowColumn>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              {ticketTable}
             </div>
             <div>
-              <Table>
-
-              </Table>
+              <Toolbar style={innerStyle.toolbar}>
+                <ToolbarGroup>
+                  <ToolbarTitle text="Development Summary"/>
+                </ToolbarGroup>
+              </Toolbar>
+              {developmentWorkloadTable}
             </div>
             <div>
-              <Table>
-
-              </Table>
+              <Toolbar style={innerStyle.toolbar}>
+                <ToolbarGroup>
+                  <ToolbarTitle text="Evaluation Summary"/>
+                </ToolbarGroup>
+              </Toolbar>
+              {evaluationWorkloadTable}
             </div>
           </div>
       }
+
+      const dialogActions = [
+        <FlatButton
+          label="Cancel"
+          primary={true}
+          onTouchTap={this.closeDialog}
+        />,
+        <FlatButton
+          label="Submit"
+          primary={true}
+          disabled={true}
+          onTouchTap={this.closeDialog}
+        />,
+      ]
 
       return (
         <div
           className={outerStyle.container}>
           <Toolbar style={innerStyle.toolbar}>
-            <ToolbarGroup
-              firstChild={true}
-              style={innerStyle.toolbarGroup}>
+            <ToolbarGroup>
+              <ToolbarTitle text="Ticket List"/>
+            </ToolbarGroup>
+            <ToolbarGroup>
               <DropDownMenu
                 value={selectedMilestone}
                 onChange={this.onSelectMilestone}>
@@ -137,20 +274,27 @@ class Dashboard extends React.Component {
                     primaryText={item.title}/>)
                 }
               </DropDownMenu>
-            </ToolbarGroup>
-            <ToolbarGroup>
+              <ToolbarSeparator />
               <IconMenu
                 iconButtonElement={
-                  <IconButton touch={true}>
-                    <NavigationExpandMoreIcon />
-                  </IconButton>
+                 <IconButton touch={true}>
+                  <NavigationExpandMoreIcon />
+                 </IconButton>
                 }
               >
-                <MenuItem primaryText="Download" />
+                <MenuItem primaryText="Edit"/>
               </IconMenu>
             </ToolbarGroup>
           </Toolbar>
-          {ticketsContent}
+          {workloads}
+
+          <Dialog
+            title="Dialog With Actions"
+            actions={dialogActions}
+            modal={true}
+            open={this.state.openDialog}>
+            {this.state.selectedTicket.title}
+          </Dialog>
         </div>
       )
     }

@@ -23,7 +23,7 @@ function resolveWorkloads(json) {
 export function fetchWorkloads(team, milestone) {
   return dispatch => {
     dispatch(requestWorkloads(milestone))
-    return fetch('http://localhost:5000/ticketList/' + team + '/' + milestone)
+    return fetch('http://localhost:5000/workloadList/' + team + '/' + milestone)
       .then(response => response.json())
       .then(json => dispatch(resolveWorkloads(json)))
       .catch(e => console.log(e))
