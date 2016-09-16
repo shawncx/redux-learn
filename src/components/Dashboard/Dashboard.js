@@ -167,7 +167,7 @@ class Dashboard extends React.Component {
                 <TableHeaderColumn>Developer</TableHeaderColumn>
                 <TableHeaderColumn>Development Man-Day</TableHeaderColumn>
                 <TableHeaderColumn>Development Progress</TableHeaderColumn>
-                <TableHeaderColumn>evaluator</TableHeaderColumn>
+                <TableHeaderColumn>Evaluator</TableHeaderColumn>
                 <TableHeaderColumn>Evaluation Man-Day</TableHeaderColumn>
                 <TableHeaderColumn>Evaluation Progress</TableHeaderColumn>
               </TableRow>
