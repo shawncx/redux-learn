@@ -1,7 +1,14 @@
 /**
  * Created by chenxiao on 9/13/16.
  */
-import {REQUEST_WORKLOADS, RESOLVE_WORKLOADS} from '../actions/workloadActions'
+import {
+  REQUEST_WORKLOADS,
+  RESOLVE_WORKLOADS,
+  REQUEST_UPDATE_TICKET,
+  RESOLVE_UPDATE_TICKET,
+  REQUEST_UPLOAD_TICKET_LIST,
+  RESOLVE_UPLOAD_TICKET_LIST,
+} from '../actions/workloadActions'
 
 const ACTION_HANDLERS = {
   [REQUEST_WORKLOADS]: (state, action) => {
@@ -20,6 +27,30 @@ const ACTION_HANDLERS = {
         developmentWorkload: action.result.developmentWorkload,
         evaluationWorkload: action.result.evaluationWorkload,
       })
+  },
+  [REQUEST_UPDATE_TICKET]: (state, action) => {
+    return Object.assign({}, state,
+      {
+        isLoading: true
+      })
+  },
+  [RESOLVE_UPDATE_TICKET]: (state, action) => {
+    return Object.assign({}, state,
+      {
+        isLoading: false
+      })
+  },
+  [REQUEST_UPLOAD_TICKET_LIST]: (state, action) => {
+    return Object.assign({}, state,
+      {
+        isLoading: true
+      })
+  },
+  [RESOLVE_UPLOAD_TICKET_LIST]: (state, action) => {
+    return Object.assign({}, state,
+      {
+        isLoading: false
+      })
   }
 }
 
@@ -34,5 +65,5 @@ const initialState = {
 
 export default function (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
-  return handler ? handler(state, action): state
+  return handler ? handler(state, action) : state
 }

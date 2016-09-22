@@ -9,6 +9,9 @@ export const RESOLVE_WORKLOADS = 'RESOLVE_WORKLOAD'
 export const REQUEST_UPDATE_TICKET = 'REQUEST_UPDATE_TICKET'
 export const RESOLVE_UPDATE_TICKET = 'RESOLVE_UPDATE_TICKET'
 
+export const REQUEST_UPLOAD_TICKET_LIST = 'REQUEST_UPLOAD_TICKET_LIST'
+export const RESOLVE_UPLOAD_TICKET_LIST = 'RESOLVE_UPLOAD_TICKET_LIST'
+
 function requestWorkloads(milestone) {
   return {
     type: REQUEST_WORKLOADS,
@@ -34,10 +37,9 @@ export function fetchWorkloads(team, milestone) {
 }
 
 
-
 function requestUpdateTicket(ticket) {
   return {
-    type: REQUEST_UPDATE_TICKET, 
+    type: REQUEST_UPDATE_TICKET,
     ticket: ticket,
   }
 }
@@ -52,6 +54,51 @@ function resolveUpdateTicket(json) {
 export function updateTicket(ticket) {
   return dispatch => {
     dispatch(requestUpdateTicket(ticket))
-    return
+    let ticketWrapper = {'ticket': ticket}
+    return fetch('http://localhost:5000/ticket/update', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(ticketWrapper)
+    }).then(response => response.json())
+      .then(json => dispatch(resolveUpdateTicket(json)))
+      .then(() => {
+        return dispatch(fetchWorkloads(ticket.team, ticket.milestone))})
+      .catch(e => console.log(e))
+  }
+}
+
+function requestUploadTicketList() {
+  return {
+    type: REQUEST_UPLOAD_TICKET_LIST,
+  }
+}
+
+function resolveUploadTicketList(json) {
+  return {
+    type: RESOLVE_UPLOAD_TICKET_LIST,
+    result: json,
+  }
+}
+
+export function uploadTicketList(team, milestone, mode, ticketList) {
+  let data = new FormData()
+  data.append('team', team)
+  data.append('milestone', milestone)
+  data.append('mode', mode)
+  data.append('ticketList', ticketList)
+
+
+  return dispatch => {
+    dispatch(requestUploadTicketList())
+    return fetch('http://localhost:5000/ticketList/update', {
+      method: 'POST',
+      body: data,
+    }).then(response => response.json())
+      .then(json => dispatch(resolveUploadTicketList(json)))
+      .then(() => dispatch(fetchWorkloads(team, milestone)))
+      .catch(e => console.log(e))
   }
 }

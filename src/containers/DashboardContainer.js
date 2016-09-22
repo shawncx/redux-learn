@@ -3,12 +3,14 @@
  */
 import {connect} from 'react-redux'
 import {fetchMilestones} from '../actions/milestoneActions'
-import {fetchWorkloads} from '../actions/workloadActions'
+import {fetchWorkloads, updateTicket, uploadTicketList} from '../actions/workloadActions'
 import Dashboard from '../components/Dashboard'
 
 const mapActionCreators = {
   fetchMilestones,
   fetchWorkloads,
+  updateTicket,
+  uploadTicketList,
 }
 
 const mapStateToProps = state => {
