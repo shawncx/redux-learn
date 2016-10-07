@@ -89,18 +89,20 @@ class Dashboard extends React.Component {
 
   onSubmitUpdateTicketDialog = () => {
     this.onCloseUpdateTicketDialog()
-    this.props.updateTicket({
-      'milestone': this.state.selectedTicket.milestone,
-      'no': parseInt(this.refs['ticketNumberInput'].input.value),
-      'title': parseFloat(this.refs['ticketTitleInput'].input.title),
-      'developer': this.refs['ticketDeveloperInput'].input.value,
-      'evaluator': this.refs['ticketEvaluatorInput'].input.value,
-      'developmentManDay': parseFloat(this.refs['ticketDevelopmentManDayInput'].input.value),
-      'developmentProgress': parseFloat(this.refs['ticketDevelopmentProgressInput'].input.value),
-      'evaluationManDay': parseFloat(this.refs['ticketEvaluationManDayInput'].input.value),
-      'evaluationProgress': parseFloat(this.refs['ticketEvaluationProgressInput'].input.value),
-      'team': this.state.selectedTicket.team,
-    })
+    this.props.updateTicket(
+      this.state.selectedTicket.team,
+      this.state.selectedTicket.milestone,
+      {
+        'no': parseInt(this.refs['ticketNumberInput'].input.value),
+        'title': parseFloat(this.refs['ticketTitleInput'].input.title),
+        'developer': this.refs['ticketDeveloperInput'].input.value,
+        'evaluator': this.refs['ticketEvaluatorInput'].input.value,
+        'developmentManDay': parseFloat(this.refs['ticketDevelopmentManDayInput'].input.value),
+        'developmentProgress': parseFloat(this.refs['ticketDevelopmentProgressInput'].input.value),
+        'evaluationManDay': parseFloat(this.refs['ticketEvaluationManDayInput'].input.value),
+        'evaluationProgress': parseFloat(this.refs['ticketEvaluationProgressInput'].input.value)
+      }
+    )
   }
 
   onCloseUploadTicketListDialog = () => {
@@ -113,10 +115,10 @@ class Dashboard extends React.Component {
 
   onSubmitUploadTicketListDialog = () => {
     let fileUpload = document.getElementById('uploadTicketListInput')
-    if(fileUpload.files && fileUpload.files[0]){
+    if (fileUpload.files && fileUpload.files[0]) {
       let file = fileUpload.files[0]
       let textType = /text.*/;
-      if (file.type.match(textType)){
+      if (file.type.match(textType)) {
         this.props.uploadTicketList(this.props.team, this.props.selectedMilestone,
           this.state.uploadTicketListMode, file)
       }

@@ -51,10 +51,14 @@ function resolveUpdateTicket(json) {
   }
 }
 
-export function updateTicket(ticket) {
+export function updateTicket(team, milestone, ticket) {
   return dispatch => {
     dispatch(requestUpdateTicket(ticket))
-    let ticketWrapper = {'ticket': ticket}
+    let ticketWrapper = {
+      ticket,
+      team,
+      milestone
+    }
     return fetch('http://localhost:5000/ticket/update', {
       method: 'POST',
       headers: {
