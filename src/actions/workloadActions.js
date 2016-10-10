@@ -59,6 +59,7 @@ export function updateTicket(team, milestone, ticket) {
       team,
       milestone
     }
+    console.log(ticketWrapper)
     return fetch('http://localhost:5000/ticket/update', {
       method: 'POST',
       headers: {
@@ -68,8 +69,7 @@ export function updateTicket(team, milestone, ticket) {
       body: JSON.stringify(ticketWrapper)
     }).then(response => response.json())
       .then(json => dispatch(resolveUpdateTicket(json)))
-      .then(() => {
-        return dispatch(fetchWorkloads(ticket.team, ticket.milestone))})
+      .then(() => dispatch(fetchWorkloads(team, milestone)))
       .catch(e => console.log(e))
   }
 }

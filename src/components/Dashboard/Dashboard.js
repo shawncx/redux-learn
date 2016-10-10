@@ -21,6 +21,11 @@ const innerStyle = {
   },
   modeMenu: {
     paddingLeft: '0px',
+  },
+  loadingImg: {
+    width: '480px',
+    height: '269px',
+    marginTop: '20px'
   }
 }
 
@@ -90,8 +95,8 @@ class Dashboard extends React.Component {
   onSubmitUpdateTicketDialog = () => {
     this.onCloseUpdateTicketDialog()
     this.props.updateTicket(
-      this.state.selectedTicket.team,
-      this.state.selectedTicket.milestone,
+      this.props.team,
+      this.props.selectedMilestone,
       {
         'no': parseInt(this.refs['ticketNumberInput'].input.value),
         'title': parseFloat(this.refs['ticketTitleInput'].input.title),
@@ -225,7 +230,7 @@ class Dashboard extends React.Component {
 
       let workloads =
         <div className={outerStyle.container}>
-          <h1>Loading...</h1>
+          <img src="loading.gif" style={innerStyle.loadingImg} />
         </div>
 
       if (!isLoadingWorkloads) {

@@ -23,7 +23,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const {message} = this.props
+    const {message, isLoading} = this.props
     return (
       <div className={outerStyle.container}>
         <Title title="Login"/>
@@ -51,7 +51,8 @@ class Login extends React.Component {
           <RaisedButton 
             primary={true} 
             label="LOGIN"
-            onClick={this.onLogin}/>
+            onClick={this.onLogin}
+          />
         </div>
       </div>
     )
