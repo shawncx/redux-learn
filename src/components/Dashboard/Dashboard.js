@@ -122,11 +122,8 @@ class Dashboard extends React.Component {
     let fileUpload = document.getElementById('uploadTicketListInput')
     if (fileUpload.files && fileUpload.files[0]) {
       let file = fileUpload.files[0]
-      let textType = /text.*/;
-      if (file.type.match(textType)) {
-        this.props.uploadTicketList(this.props.team, this.props.selectedMilestone,
+      this.props.uploadTicketList(this.props.team, this.props.selectedMilestone,
           this.state.uploadTicketListMode, file)
-      }
     } else {
       console.log('file error!')
     }
@@ -205,9 +202,17 @@ class Dashboard extends React.Component {
       ]
       let rows = []
       if (tickets) {
+        tickets.sort((e1, e2) => {
+          if(!e1.developer){
+            return 1
+          }else{
+            return e1.developer.localeCompare(e2.developer)
+          }
+        })
         tickets.forEach(t => {
+          let link = "http://narga/prm/integrated/docticket/" + t.no
           rows.push([
-            t.no,
+            <a href={link} target="_blank">{t.no}</a>,
             t.title,
             t.developer,
             t.developmentManDay,
