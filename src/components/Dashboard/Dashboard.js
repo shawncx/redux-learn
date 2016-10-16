@@ -26,6 +26,9 @@ const innerStyle = {
     width: '480px',
     height: '269px',
     marginTop: '20px'
+  },
+  ticketTitle: {
+    color: 'black'
   }
 }
 
@@ -138,17 +141,17 @@ class Dashboard extends React.Component {
         rows.push([
           ele.name,
           ele.available,
-          ele.support,
+          Math.round(ele.support * 10) / 10,
           ele.cost,
-          ele.remain,
+          Math.round(ele.remain * 10) / 10
         ])
       })
       rows.push([
         '',
         workload.totalAvailable,
-        workload.totalSupport,
+        Math.round(workload.totalSupport * 10) / 10,
         workload.totalCost,
-        workload.totalRemain,
+        Math.round(workload.totalRemain * 10) / 10
       ])
     }
     return (
@@ -366,7 +369,8 @@ class Dashboard extends React.Component {
                 disabled={true}
                 fullWidth={true}
                 id="text-field-default"
-                defaultValue={this.state.selectedTicket.title}/>
+                defaultValue={this.state.selectedTicket.title}
+                inputStyle={innerStyle.ticketTitle}/>
             </div>
             <div className={outerStyle.container}>
               <Title
