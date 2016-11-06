@@ -9,6 +9,9 @@ export const RESOLVE_WORKLOADS = 'RESOLVE_WORKLOAD'
 export const REQUEST_UPDATE_TICKET = 'REQUEST_UPDATE_TICKET'
 export const RESOLVE_UPDATE_TICKET = 'RESOLVE_UPDATE_TICKET'
 
+export const REQUEST_DELETE_TICKET = 'REQUEST_DELETE_TICKET'
+export const RESOLVE_DELETE_TICKET = 'RESOLVE_DELETE_TICKET'
+
 export const REQUEST_UPLOAD_TICKET_LIST = 'REQUEST_UPLOAD_TICKET_LIST'
 export const RESOLVE_UPLOAD_TICKET_LIST = 'RESOLVE_UPLOAD_TICKET_LIST'
 
@@ -60,8 +63,8 @@ export function updateTicket(team, milestone, ticket) {
       milestone
     }
     console.log(ticketWrapper)
-    return fetch('http://localhost:5000/ticket/update', {
-      method: 'POST',
+    return fetch('http://localhost:5000/ticket/' + team + '/' + milestone + '/' + ticket.no, {
+      method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -69,6 +72,32 @@ export function updateTicket(team, milestone, ticket) {
       body: JSON.stringify(ticketWrapper)
     }).then(response => response.json())
       .then(json => dispatch(resolveUpdateTicket(json)))
+      .then(() => dispatch(fetchWorkloads(team, milestone)))
+      .catch(e => console.log(e))
+  }
+}
+
+function requestDeleteTicket(ticket) {
+  return {
+    type: REQUEST_DELETE_TICKET,
+    ticket: ticket,
+  }
+}
+
+function resolveDeleteTicket(json) {
+  return {
+    type: RESOLVE_DELETE_TICKET,
+    result: json,
+  }
+}
+
+export function deleteTicket(team, milestone, ticket) {
+  return dispatch => {
+    dispatch(requestDeleteTicket(ticket))
+    return fetch('http://localhost:5000/ticket/' + team + '/' + milestone + '/' + ticket.no, {
+      method: 'DELETE',
+    }).then(response => response.json())
+      .then(json => dispatch(resolveDeleteTicket(json)))
       .then(() => dispatch(fetchWorkloads(team, milestone)))
       .catch(e => console.log(e))
   }

@@ -46,6 +46,7 @@ class Dashboard extends React.Component {
     fetchMilestones: PropTypes.func,
     fetchWorkloads: PropTypes.func,
     updateTicket: PropTypes.func,
+    deleteTicket: PropTypes.func,
     uploadTicketList: PropTypes.func,
     isLoadingMilestones: PropTypes.bool,
     isLoadingWorkloads: PropTypes.bool,
@@ -95,7 +96,7 @@ class Dashboard extends React.Component {
     ))
   }
 
-  onSubmitUpdateTicketDialog = () => {
+  onSubmitUpdateTicket = () => {
     this.onCloseUpdateTicketDialog()
     this.props.updateTicket(
       this.props.team,
@@ -113,6 +114,17 @@ class Dashboard extends React.Component {
     )
   }
 
+  onDeleteTicket = () => {
+    this.onCloseUpdateTicketDialog()
+    this.props.deleteTicket(
+      this.props.team,
+      this.props.selectedMilestone,
+      {
+        'no': parseInt(this.refs['ticketNumberInput'].input.value),
+      }
+    )
+  }
+
   onCloseUploadTicketListDialog = () => {
     this.setState(Object.assign({}, this.state,
       {
@@ -121,7 +133,7 @@ class Dashboard extends React.Component {
     ))
   }
 
-  onSubmitUploadTicketListDialog = () => {
+  onSubmitUploadTicketList = () => {
     let fileUpload = document.getElementById('uploadTicketListInput')
     if (fileUpload.files && fileUpload.files[0]) {
       let file = fileUpload.files[0]
@@ -134,7 +146,7 @@ class Dashboard extends React.Component {
   }
 
   createWorkloadTable = workload => {
-    let headers = ['', 'Available', 'Support', 'Cost', 'Remain']
+    let headers = ['', 'Available', 'Support', 'Cost', 'Remain', 'Remained ManDay']
     let rows = []
     if (workload) {
       workload.personalWorkloads.forEach(ele => {
@@ -143,7 +155,8 @@ class Dashboard extends React.Component {
           ele.available,
           Math.round(ele.support * 10) / 10,
           ele.cost,
-          Math.round(ele.remain * 10) / 10
+          Math.round(ele.remain * 10) / 10,
+          Math.round(ele.remainedManDay * 10) / 10,
         ])
       })
       rows.push([
@@ -151,7 +164,8 @@ class Dashboard extends React.Component {
         workload.totalAvailable,
         Math.round(workload.totalSupport * 10) / 10,
         workload.totalCost,
-        Math.round(workload.totalRemain * 10) / 10
+        Math.round(workload.totalRemain * 10) / 10,
+        Math.round(workload.totalRemainedManDay * 10) / 10
       ])
     }
     return (
@@ -161,18 +175,32 @@ class Dashboard extends React.Component {
     )
   }
 
-  createDialogActions = (onCancel, onSubmit) => [
-    <FlatButton
-      label="Cancel"
-      primary={true}
-      onTouchTap={onCancel}
-    />,
-    <FlatButton
-      label="Submit"
-      primary={true}
-      onTouchTap={onSubmit}
-    />,
-  ]
+  createDialogActions = (onCancel, onSubmit, onDelete) => {
+    let actionButtons = [
+      <FlatButton
+        label="Cancel"
+        onTouchTap={onCancel}
+      />,
+      <FlatButton
+        label="Submit"
+        primary={true}
+        onTouchTap={onSubmit}
+      />,
+      <FlatButton
+        label="Delete"
+        secondary={true}
+        onTouchTap={onDelete}
+      />,
+    ]
+    if(onSubmit == null){
+      return actionButtons.slice(0, 1)
+    }else if(onDelete == null){
+      return actionButtons.slice(0, 2)
+    }else{
+      return actionButtons
+    }
+
+  }
 
   render() {
     const {
@@ -307,7 +335,8 @@ class Dashboard extends React.Component {
           {workloads}
 
           <Dialog title="Upload Tickets"
-                  actions={this.createDialogActions(this.onCloseUploadTicketListDialog, this.onSubmitUploadTicketListDialog)}
+                  actions={this.createDialogActions(this.onCloseUploadTicketListDialog,
+                    this.onSubmitUploadTicketList)}
                   modal={true}
                   open={this.state.openUploadTicketListDialog}
                   autoScrollBodyContent={true}>
@@ -341,7 +370,8 @@ class Dashboard extends React.Component {
 
           <Dialog
             title="Ticket Workload"
-            actions={this.createDialogActions(this.onCloseUpdateTicketDialog, this.onSubmitUpdateTicketDialog)}
+            actions={this.createDialogActions(this.onCloseUpdateTicketDialog, this.onSubmitUpdateTicket,
+              this.onDeleteTicket)}
             modal={true}
             open={this.state.openUpdateTicketDialog}
             autoScrollBodyContent={true}>

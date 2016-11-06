@@ -6,6 +6,8 @@ import {
   RESOLVE_WORKLOADS,
   REQUEST_UPDATE_TICKET,
   RESOLVE_UPDATE_TICKET,
+  REQUEST_DELETE_TICKET,
+  RESOLVE_DELETE_TICKET,
   REQUEST_UPLOAD_TICKET_LIST,
   RESOLVE_UPLOAD_TICKET_LIST,
 } from '../actions/workloadActions'
@@ -35,6 +37,18 @@ const ACTION_HANDLERS = {
       })
   },
   [RESOLVE_UPDATE_TICKET]: (state, action) => {
+    return Object.assign({}, state,
+      {
+        isLoading: false
+      })
+  },
+  [REQUEST_DELETE_TICKET]: (state, action) => {
+    return Object.assign({}, state,
+      {
+        isLoading: true
+      })
+  },
+  [RESOLVE_DELETE_TICKET]: (state, action) => {
     return Object.assign({}, state,
       {
         isLoading: false
