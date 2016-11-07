@@ -236,8 +236,9 @@ class Dashboard extends React.Component {
         tickets.sort((e1, e2) => {
           if(!e1.developer){
             return 1
-          }else{
-            return e1.developer.localeCompare(e2.developer)
+          }else {
+            let devCompare = e1.developer.localeCompare(e2.developer)
+            return devCompare == 0 ? (e1.no - e2.no) : devCompare
           }
         })
         tickets.forEach(t => {
