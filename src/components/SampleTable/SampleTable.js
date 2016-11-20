@@ -29,6 +29,13 @@ class SimpleTable extends React.Component {
     tableRows: [],
   }
 
+  headerSort = index => {
+    return () => {
+      console.log(2)
+      alert(index)
+    }
+  }
+
   onDoubleClickRow = index => this.props.onDoubleClickRow(index)
 
   render() {
@@ -40,11 +47,14 @@ class SimpleTable extends React.Component {
           adjustForCheckbox={false}>
           <TableRow>
             {tableHeaders.map((row, index) => (
-              <TableHeaderColumn key={index}>{row}</TableHeaderColumn>
+              <TableHeaderColumn key={index}>
+                <span onClick={this.headerSort(index)}>{row}</span>
+              </TableHeaderColumn>
             ))}
           </TableRow>
         </TableHeader>
         <TableBody
+          showRowHover={true}
           displayRowCheckbox={false}>
           {tableRows.map((row, rowIndex) => (
             <TableRow
