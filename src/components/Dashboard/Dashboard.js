@@ -493,7 +493,7 @@ class Dashboard extends React.Component {
             title="Loading"
             open={isLoadingWorkloads}>
             <div className={outerStyle.loadingContainer}>
-              <img src="loading.gif" style={innerStyle.loadingImg} />
+              <img src="loading2.gif" style={innerStyle.loadingImg} />
             </div>
           </Dialog>
 
