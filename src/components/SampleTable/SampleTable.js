@@ -19,29 +19,31 @@ class SimpleTable extends React.Component {
     onDoubleClickRow: PropTypes.func,
     tableHeaders: PropTypes.array,
     tableRows: PropTypes.array,
+    selectedIndex: PropTypes.number,
   }
 
   static defaultProps = {
-    onClickRow: () => {
-    },
+    onClickRow: () => {},
     onDoubleClickRow: () => () => {},
     tableHeaders: [],
     tableRows: [],
+    selectedIndex: -1,
   }
 
   headerSort = index => {
     return () => {
-      console.log(2)
       alert(index)
     }
   }
 
+  onClickRow = index => this.props.onClickRow(index)
+
   onDoubleClickRow = index => this.props.onDoubleClickRow(index)
 
   render() {
-    const {onClickRow, tableHeaders, tableRows} = this.props
+    const {tableHeaders, tableRows} = this.props
     return (
-      <Table>
+      <Table onRowSelection={this.onClickRow}>
         <TableHeader
           displaySelectAll={false}
           adjustForCheckbox={false}>
@@ -59,8 +61,8 @@ class SimpleTable extends React.Component {
           {tableRows.map((row, rowIndex) => (
             <TableRow
               key={rowIndex}
-              onRowClick={onClickRow}
-              onDoubleClick={this.onDoubleClickRow(rowIndex)}>
+              onDoubleClick={this.onDoubleClickRow(rowIndex)}
+              selected={rowIndex == this.props.selectedIndex}>
               {row.map((col, colIndex) => (
                 <TableRowColumn key={colIndex}>{col}</TableRowColumn>)
               )}

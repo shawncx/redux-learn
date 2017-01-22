@@ -40,6 +40,7 @@ class Dashboard extends React.Component {
     uploadTicketListMode: 'merge',
     uploadMilestoneListModel: 'merge',
     selectedTicket: {},
+    selectedTicketIndex: -1,
   }
 
   static propTypes = {
@@ -82,7 +83,8 @@ class Dashboard extends React.Component {
       this.setState(Object.assign({}, this.state,
         {
           openUpdateTicketDialog: true,
-          selectedTicket: this.props.tickets[index]
+          selectedTicket: this.props.tickets[index],
+          selectedTicketIndex: index
         }
       ))
     }
@@ -202,6 +204,10 @@ class Dashboard extends React.Component {
 
   }
 
+  test = index => {
+    console.log(this.state.selectedTicket)
+  }
+
   render() {
     const {
       isLoadingMilestones,
@@ -259,19 +265,22 @@ class Dashboard extends React.Component {
         <SampleTable
           tableHeaders={headers}
           tableRows={rows}
-          onDoubleClickRow={this.onSelectTicket}/>
+          onDoubleClickRow={this.onSelectTicket}
+          onClickRow={this.test}
+          selectedIndex={this.state.selectedTicketIndex}
+        />
       )
 
       const developmentWorkloadTable = this.createWorkloadTable(developmentWorkload)
       const evaluationWorkloadTable = this.createWorkloadTable(evaluationWorkload)
 
-      let workloads =
-        <div className={outerStyle.container}>
-          <img src="loading.gif" style={innerStyle.loadingImg} />
-        </div>
+      // let workloads =
+      //   <div className={outerStyle.container}>
+      //     <img src="loading.gif" style={innerStyle.loadingImg} />
+      //   </div>
 
-      if (!isLoadingWorkloads) {
-        workloads =
+      // if (!isLoadingWorkloads) {
+        let workloads =
           <div>
             <div>
               {ticketTable}
@@ -295,7 +304,7 @@ class Dashboard extends React.Component {
               </div>
             </div>
           </div>
-      }
+      // }
 
       return (
         <div
@@ -479,6 +488,15 @@ class Dashboard extends React.Component {
             </div>
 
           </Dialog>
+
+          <Dialog
+            title="Loading"
+            open={isLoadingWorkloads}>
+            <div className={outerStyle.loadingContainer}>
+              <img src="loading.gif" style={innerStyle.loadingImg} />
+            </div>
+          </Dialog>
+
         </div>
       )
     }
